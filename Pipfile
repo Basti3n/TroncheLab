@@ -5,6 +5,11 @@ name = "pypi"
 
 [packages]
 moment = "==0.9"
+numpy = "*"
+tensorflow = "*"
+pillow = "*"
+sklearn = "*"
+matplotlib = "*"
 
 [dev-packages]
 vulture = "==1.4"

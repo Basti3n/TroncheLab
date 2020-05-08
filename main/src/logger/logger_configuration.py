@@ -7,7 +7,7 @@ import logs
 def setup_logging_configuration(log_level):
 
     path = os.path.dirname(logs.__file__)
-    filename_path = path + f"/stats19-server.log"
+    filename_path = path + f"/TroncheLab.log"
 
     config_logger = {
         'version': 1,

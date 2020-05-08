@@ -10,7 +10,9 @@ class MainProcess:
 
     @classmethod
     def run(cls) -> None:
-        logger.info("Main process running")
+        logger.info("Main process started")
+
+        logger.info("Main process ended")
 
 
 

@@ -2,6 +2,7 @@ import tkinter
 from tkinter import PhotoImage
 from tkinter.ttk import Frame, Button, Style
 
+from main.src.process.essai_process import EssaiProcess
 from main.src.process.main_process import MainProcess
 
 
@@ -10,7 +11,8 @@ class Application(Frame):
     width: tkinter
     height: tkinter
     quit: Button
-    start_process: Button
+    start_main_process: Button
+    start_essai_process: Button
 
     def __init__(self, width: int, height: int, master: tkinter = None ):
         super().__init__(master)
@@ -25,8 +27,10 @@ class Application(Frame):
         self._create_widgets()
 
     def _create_widgets(self) -> None:
-        self.start_process = Button(self, text='Start Process', command=MainProcess.run)
-        self.start_process.grid(column=0, row=0, pady=10)
+        self.start_main_process = Button(self, text='Start Main Process', command=MainProcess.run)
+        self.start_essai_process = Button(self, text='Start Essai Process', command=EssaiProcess.run)
+        self.start_main_process.grid(column=0, row=0, pady=10)
+        self.start_essai_process.grid(column=0, row=1, pady=10)
         self.create_leave_button()
 
 
