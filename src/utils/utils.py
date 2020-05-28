@@ -78,3 +78,14 @@ def load_mlp_model(file: str):
     print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
     # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
 
+
+def load_cnn_model(file: str):
+    model = load_model(f'./src/cnn_model.keras')
+    model.summary()
+    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    images = np.vstack([x])
+
+    print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
+    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
