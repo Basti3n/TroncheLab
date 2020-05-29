@@ -1,5 +1,5 @@
 import flask
-from flask import request
+from flask import request, jsonify
 
 from src.utils.utils import *
 
@@ -15,36 +15,36 @@ def home():
 @app.route('/api/linear', methods=['POST'])
 def linear():
     image = request.files['image']
-    return {'linear': load_linear_model(image)}
+    return jsonify({'linear': load_linear_model(image)})
 
 
 @app.route('/api/mlp', methods=['POST'])
 def mlp():
     image = request.files['image']
-    return {'mlp': load_mlp_model(image)}
+    return jsonify({'mlp': load_mlp_model(image)})
 
 
 @app.route('/api/cnn', methods=['POST'])
 def cnn():
     image = request.files['image']
-    return {'cnn': load_cnn_model(image)}
+    return jsonify({'cnn': load_cnn_model(image)})
 
 
 @app.route('/api/resnet', methods=['POST'])
 def resnet():
     image = request.files['image']
-    return {'resnet': load_resnet_model(image)}
+    return jsonify({'resnet': load_resnet_model(image)})
 
 
 @app.route('/api/all', methods=['POST'])
 def all():
     image = request.files['image']
-    return {
+    return jsonify({
         'linear': load_linear_model(image),
         'mlp': load_mlp_model(image),
         'cnn': load_cnn_model(image),
         'resnet': load_resnet_model(image)
-    }
+    })
 
 
 app.run()
