@@ -3,7 +3,9 @@ from enum import Enum
 
 import numpy as np
 from PIL import Image
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from keras_preprocessing import image
+from matplotlib.pyplot import imshow
 from tensorflow.python.keras.models import load_model
 
 DATASET_PATH = os.environ['DATASET_PATH']
@@ -57,7 +59,7 @@ def load_dataset():
 
 def load_linear_model(file: str):
     model = load_model(f'./src/linear_model.keras')
-    model.summary()
+    # model.summary()
     img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
@@ -69,7 +71,7 @@ def load_linear_model(file: str):
 
 def load_mlp_model(file: str):
     model = load_model(f'./src/mlp_model.keras')
-    model.summary()
+    # model.summary()
     img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
@@ -78,3 +80,27 @@ def load_mlp_model(file: str):
     print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
     # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
 
+
+def load_cnn_model(file: str):
+    model = load_model(f'./src/cnn_model.keras')
+    # model.summary()
+    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    images = np.vstack([x])
+
+    print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
+    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
+
+
+def load_resnet_model(file: str):
+    model = load_model(f'./src/resnet_model.keras')
+    # model.summary()
+    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    # images = np.vstack([x])
+    x = preprocess_input(x)
+    print(model.predict(x))
+    # print(f'Test Acc : {Classes(model.predict(images, batch_size=10))}')
+    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
