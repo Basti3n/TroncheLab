@@ -57,50 +57,51 @@ def load_dataset():
     return (x_train, y_train), (x_test, y_test)
 
 
-def load_linear_model(file: str):
+def load_linear_model(file):
     model = load_model(f'./src/linear_model.keras')
     # model.summary()
-    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
 
-    print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
-    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
+    # print(f'Linear model : {Classes(model.predict_classes(images, batch_size=64))}')
+    return Classes(model.predict_classes(images, batch_size=64)).name
 
 
 def load_mlp_model(file: str):
     model = load_model(f'./src/mlp_model.keras')
     # model.summary()
-    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
 
-    print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
-    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
+    # print(f'MLP model : {Classes(model.predict_classes(images, batch_size=64))}')
+    return Classes(model.predict_classes(images, batch_size=64)).name
 
 
 def load_cnn_model(file: str):
     model = load_model(f'./src/cnn_model.keras')
     # model.summary()
-    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
 
-    print(f'Test Acc : {Classes(model.predict_classes(images, batch_size=10))}')
-    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')
+    # print(f'CNN model : {Classes(model.predict_classes(images, batch_size=64))}')
+    return Classes(model.predict_classes(images, batch_size=64)).name
 
 
 def load_resnet_model(file: str):
     model = load_model(f'./src/resnet_model.keras')
     # model.summary()
-    img = image.load_img(f'{DATASET_PATH}./Autre/{file}', target_size=TARGET_RESOLUTION)
+    img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
-    # images = np.vstack([x])
     x = preprocess_input(x)
-    print(model.predict(x))
+
+    res = model.predict(x)
+
+    return Classes(np.argmax(res, axis=1)).name
     # print(f'Test Acc : {Classes(model.predict(images, batch_size=10))}')
-    # print(f'Test Acc : {model.predict_classes(images, batch_size=10)}')

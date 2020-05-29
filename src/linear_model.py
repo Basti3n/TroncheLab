@@ -49,7 +49,7 @@ if __name__ == '__main__':
     print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
-    logs = model.fit(x_train, y_train, batch_size=16, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
+    logs = model.fit(x_train, y_train, batch_size=64, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
                      callbacks=[TensorBoard()])
 
     true_values = np.argmax(y_train, axis=1)

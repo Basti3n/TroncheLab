@@ -1,8 +1,8 @@
 import os
 
 import numpy as np
-from IPython.core.display import SVG
-from tensorflow.keras.utils import plot_model, model_to_dot
+# from IPython.core.display import SVG
+# from tensorflow.keras.utils import plot_model, model_to_dot
 from tensorflow.keras import Input, Model
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.initializers import glorot_uniform
