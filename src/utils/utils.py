@@ -40,7 +40,7 @@ def load_dataset():
     for file in os.listdir(f'{DATASET_PATH}/Test/Carnaval/'):
         Ximgs_test.append(
             np.array(
-                Image.open(f'{DATASET_PATH}./Test/Carnaval/{file}').resize(TARGET_RESOLUTION).convert('RGB')) / 255.0)
+                Image.open(f'{DATASET_PATH}/Test/Carnaval/{file}').resize(TARGET_RESOLUTION).convert('RGB')) / 255.0)
         y_test.append([1, 0, 0])
     for file in os.listdir(f'{DATASET_PATH}/Test/Face/'):
         Ximgs_test.append(
