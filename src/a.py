@@ -1,10 +1,13 @@
 import flask
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 
 from src.utils.utils import *
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/api/', methods=['GET'])
