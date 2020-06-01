@@ -5,11 +5,10 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from keras_preprocessing import image
-from matplotlib.pyplot import imshow
 from tensorflow.python.keras.models import load_model
 
 DATASET_PATH = os.environ['DATASET_PATH']
-TARGET_RESOLUTION = (64, 64)
+TARGET_RESOLUTION = (256, 256)
 
 
 class Classes(Enum):

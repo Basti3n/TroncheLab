@@ -13,6 +13,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 EPOCH = 12
 
+
 def create_cnn_model():
     model = Sequential()
     model.add(Conv2D(256, kernel_size=3, activation='relu'))

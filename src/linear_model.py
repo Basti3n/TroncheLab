@@ -5,7 +5,6 @@ from tensorflow.keras.callbacks import TensorBoard
 
 from src.utils.utils import load_dataset
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.activations import sigmoid
@@ -15,7 +14,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 EPOCH = 300
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 def create_linear_model():
