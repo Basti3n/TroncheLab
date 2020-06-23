@@ -8,7 +8,7 @@ from keras_preprocessing import image
 from tensorflow.python.keras.models import load_model
 
 DATASET_PATH = os.environ['DATASET_PATH']
-TARGET_RESOLUTION = (256, 256)
+TARGET_RESOLUTION = (64, 64)
 
 
 class Classes(Enum):
