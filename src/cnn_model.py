@@ -3,9 +3,14 @@ import os
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
+from tensorflow.keras.activations import sigmoid, tanh
+from tensorflow.keras.activations import relu
 from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.losses import mean_squared_error
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
+from tensorflow.python.keras.layers import MaxPool2D
 
 from src.utils.utils import load_dataset
 
@@ -23,6 +28,24 @@ def create_cnn_model():
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
+def create_cnn_model_2():
+    model = Sequential()
+
+    model.add(Conv2D(4, (3, 3), padding='same', activation=relu))
+    model.add(MaxPool2D((2, 2)))
+
+    model.add(Conv2D(8, (3, 3), padding='same', activation=relu))
+    model.add(MaxPool2D((2, 2)))
+
+    model.add(Conv2D(16, (3, 3), padding='same', activation=relu))
+    # model.add(MaxPool2D((2, 2)))
+
+    model.add(Flatten())
+    model.add(Dense(64, activation=tanh))
+    model.add(Dense(3, activation=sigmoid))
+    model.compile(optimizer=SGD(), loss=mean_squared_error, metrics=['accuracy'])
+    return model
+
 
 if __name__ == '__main__':
 
@@ -32,7 +55,8 @@ if __name__ == '__main__':
     print(x_test.shape)
     print(y_test.shape)
 
-    model = create_cnn_model()
+    # model = create_cnn_model()
+    model = create_cnn_model_2()
 
     true_values = np.argmax(y_train, axis=1)
     preds = np.argmax(model.predict(x_train), axis=1)
@@ -49,7 +73,7 @@ if __name__ == '__main__':
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
     logs = model.fit(x_train, y_train, batch_size=16, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
-                     callbacks=[TensorBoard()])
+                     callbacks=[TensorBoard()], use_multiprocessing=True)
 
     true_values = np.argmax(y_train, axis=1)
     preds = np.argmax(model.predict(x_train), axis=1)
