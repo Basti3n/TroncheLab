@@ -16,7 +16,8 @@ from src.utils.utils import load_dataset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-EPOCH = 12
+EPOCH = 50
+BATCH_SIZE = 16
 
 
 def create_cnn_model():
@@ -27,6 +28,7 @@ def create_cnn_model():
     model.add(Dense(3, activation='softmax'))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
+
 
 def create_cnn_model_2():
     model = Sequential()
@@ -72,7 +74,7 @@ if __name__ == '__main__':
     print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
-    logs = model.fit(x_train, y_train, batch_size=16, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
+    logs = model.fit(x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
                      callbacks=[TensorBoard()], use_multiprocessing=True)
 
     true_values = np.argmax(y_train, axis=1)
@@ -85,7 +87,8 @@ if __name__ == '__main__':
     preds = np.argmax(model.predict(x_test), axis=1)
     print("Confusion Test Matrix After Training")
     print(confusion_matrix(true_values, preds))
-    print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
+    train_accuracy = model.evaluate(x_train, y_train)[1]
+    print(f'Train Acc : {train_accuracy}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
     print(logs.history.keys())
@@ -97,4 +100,4 @@ if __name__ == '__main__':
     plt.plot(logs.history['val_loss'])
     plt.show()
 
-    model.save('cnn_model.keras')
+    model.save(f'../models/cnn_model_e{EPOCH}_b{BATCH_SIZE}_a{train_accuracy}.keras')

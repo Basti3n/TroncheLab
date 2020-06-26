@@ -14,7 +14,9 @@ from tensorflow.keras.activations import relu
 from src.utils.utils import load_dataset, TARGET_RESOLUTION
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-EPOCH = 300
+EPOCH = 120
+BATCH_SIZE = 64
+
 
 def create_dense_res_nn_model():
     input_tensor = keras.layers.Input((TARGET_RESOLUTION[0], TARGET_RESOLUTION[1], 3))
@@ -51,7 +53,7 @@ if __name__ == '__main__':
 
     model = create_dense_res_nn_model()
 
-    logs = model.fit(x_train, y_train, epochs=EPOCH, batch_size=64, verbose=1, validation_data=(x_test, y_test),
+    logs = model.fit(x_train, y_train, epochs=EPOCH, batch_size=BATCH_SIZE, verbose=1, validation_data=(x_test, y_test),
                      callbacks=[TensorBoard()])
 
     true_values = np.argmax(y_train, axis=1)
@@ -64,7 +66,8 @@ if __name__ == '__main__':
     preds = np.argmax(model.predict(x_test), axis=1)
     print("Confusion Test Matrix After Training")
     print(confusion_matrix(true_values, preds))
-    print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
+    train_accuracy = model.evaluate(x_train, y_train)[1]
+    print(f'Train Acc : {train_accuracy}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
     print(logs.history.keys())
@@ -76,6 +79,6 @@ if __name__ == '__main__':
     plt.plot(logs.history['val_loss'])
     plt.show()
 
-    model.save('resnet_model.keras')
+    model.save(f'../models/resnet_model_e{EPOCH}_b{BATCH_SIZE}_a{train_accuracy}.keras')
     # plot_model(model, to_file='ResNet.png')
     # SVG(model_to_dot(model).create(prog='dot', format='svg'))
