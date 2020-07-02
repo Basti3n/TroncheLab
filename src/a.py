@@ -1,11 +1,14 @@
 import flask
 from os import path
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 
 from src.utils.utils import *
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/api/', methods=['GET'])
@@ -40,12 +43,11 @@ def resnet():
 @app.route('/api/custom', methods=['POST'])
 def custom():
     image = request.files['image']
-    if request.data == b'':
-        return 'Body is empty', 400
-    body = request.json
-    if not path.exists(body['path']):
+    pathInput = request.args.get('path') + ".keras"
+    print(pathInput)
+    if not path.exists(f'./models/{pathInput}'):
         return 'No file at this path', 400
-    return jsonify({'resnet': load_custom_model(image, body['path'])})
+    return jsonify({'model': load_custom_model(image, pathInput)})
 
 
 @app.route('/api/all', methods=['POST'])
