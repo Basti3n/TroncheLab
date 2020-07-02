@@ -1,4 +1,5 @@
 import flask
+from os import path
 from flask import request, jsonify
 
 from src.utils.utils import *
@@ -34,6 +35,17 @@ def cnn():
 def resnet():
     image = request.files['image']
     return jsonify({'resnet': load_resnet_model(image)})
+
+
+@app.route('/api/custom', methods=['POST'])
+def custom():
+    image = request.files['image']
+    if request.data == b'':
+        return 'Body is empty', 400
+    body = request.json
+    if not path.exists(body['path']):
+        return 'No file at this path', 400
+    return jsonify({'resnet': load_custom_model(image, body['path'])})
 
 
 @app.route('/api/all', methods=['POST'])

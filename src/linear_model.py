@@ -5,7 +5,6 @@ from tensorflow.keras.callbacks import TensorBoard
 
 from src.utils.utils import load_dataset
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.activations import sigmoid
@@ -15,7 +14,8 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 EPOCH = 300
-
+BATCH_SIZE = 64
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 def create_linear_model():
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
-    logs = model.fit(x_train, y_train, batch_size=64, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
+    logs = model.fit(x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH, verbose=1, validation_data=(x_test, y_test),
                      callbacks=[TensorBoard()])
 
     true_values = np.argmax(y_train, axis=1)
@@ -62,7 +62,8 @@ if __name__ == '__main__':
     preds = np.argmax(model.predict(x_test), axis=1)
     print("Confusion Test Matrix After Training")
     print(confusion_matrix(true_values, preds))
-    print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
+    train_accuracy = model.evaluate(x_train, y_train)[1]
+    print(f'Train Acc : {train_accuracy}')
     print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
 
     print(logs.history.keys())
@@ -74,4 +75,4 @@ if __name__ == '__main__':
     plt.plot(logs.history['val_loss'])
     plt.show()
 
-    model.save('linear_model.keras')
+    model.save(f'../models/linear_model_e{EPOCH}_b{BATCH_SIZE}_a{train_accuracy}.keras')

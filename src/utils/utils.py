@@ -5,7 +5,6 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from keras_preprocessing import image
-from matplotlib.pyplot import imshow
 from tensorflow.python.keras.models import load_model
 
 DATASET_PATH = os.environ['DATASET_PATH']
@@ -58,7 +57,7 @@ def load_dataset():
 
 
 def load_linear_model(file):
-    model = load_model(f'./src/linear_model.keras')
+    model = load_model(f'./models/linear_model.keras')
     # model.summary()
     img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
@@ -70,7 +69,7 @@ def load_linear_model(file):
 
 
 def load_mlp_model(file: str):
-    model = load_model(f'./src/mlp_model.keras')
+    model = load_model(f'./models/mlp_model.keras')
     # model.summary()
     img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
@@ -82,7 +81,7 @@ def load_mlp_model(file: str):
 
 
 def load_cnn_model(file: str):
-    model = load_model(f'./src/cnn_model.keras')
+    model = load_model(f'./models/cnn_model.keras')
     # model.summary()
     img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
@@ -94,7 +93,22 @@ def load_cnn_model(file: str):
 
 
 def load_resnet_model(file: str):
-    model = load_model(f'./src/resnet_model.keras')
+    model = load_model(f'./models/resnet_model.keras')
+    # model.summary()
+    img = Image.open(file).resize(TARGET_RESOLUTION)
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+
+    res = model.predict(x)
+
+    return Classes(np.argmax(res, axis=1)).name
+    # print(f'Test Acc : {Classes(model.predict(images, batch_size=10))}')
+
+
+def load_custom_model(file: str, path: str):
+
+    model = load_model(f'./models/{path}')
     # model.summary()
     img = Image.open(file).resize(TARGET_RESOLUTION)
     x = image.img_to_array(img)
