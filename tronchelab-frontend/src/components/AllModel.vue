@@ -14,6 +14,9 @@
             >All models</v-card-title
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
               class="mx-3 mt-3"
@@ -60,6 +63,9 @@
             >Linear models</v-card-title
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
               class="mx-3 mt-3"
@@ -99,6 +105,9 @@
         <v-card shaped color="deep-purple darken-1" dark>
           <v-card-title class="justify-center headline">CNN model</v-card-title>
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
               class="mx-3 mt-3"
@@ -138,6 +147,9 @@
         <v-card shaped color="deep-purple darken-2" dark>
           <v-card-title class="justify-center headline">MLP model</v-card-title>
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
               class="mx-3 mt-3"
@@ -174,11 +186,14 @@
     </v-row>
     <v-row>
       <v-col class="mx-auto" cols="5">
-        <v-card shaped color="purple darken-4" dark>
+        <v-card shaped color="deep-purple darken-3" dark>
           <v-card-title class="justify-center headline"
             >Resnet model</v-card-title
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
               class="mx-3 mt-3"
@@ -202,13 +217,66 @@
         </v-card>
       </v-col>
       <v-col class="ma-auto" cols="5">
-        <v-card shaped color="purple darken-4" dark>
+        <v-card shaped color="deep-purple darken-3" dark>
           <v-card-title class="justify-center headline">
             Result will be here
           </v-card-title>
           <v-card-text class="white--text">
             <p class="text-base">According to the AI, the result is:</p>
             <p class="text-base">Resnet model: {{ aiResult.resnet }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="mx-auto" cols="5">
+        <v-card shaped color="purple darken-4" dark>
+          <v-card-title class="justify-center headline"
+            >Custom model</v-card-title
+          >
+          <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
+          <h5 class="mx-4">
+            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+          </h5>
+          <form enctype="multipart/form-data" class="flex flex-column">
+            <div class="flex">
+              <v-file-input
+                class="mx-3 mt-3"
+                outlined
+                chips
+                label="File input"
+                placeholder="Upload your image here"
+                accept="image/*"
+                @change="handleUpdateFile"
+                dark
+              ></v-file-input>
+              <v-text-field
+                class="mx-3 mt-3"
+                label="File name"
+                placeholder="MyModel"
+                v-model="customFile"
+                outlined
+              ></v-text-field>
+            </div>
+            <v-btn
+              color="primary"
+              @click="customAnalyse()"
+              class="mx-auto mb-2"
+              dark
+            >
+              send
+            </v-btn>
+          </form>
+        </v-card>
+      </v-col>
+      <v-col class="ma-auto" cols="5">
+        <v-card shaped color="purple darken-4" dark>
+          <v-card-title class="justify-center headline">
+            Result will be here
+          </v-card-title>
+          <v-card-text class="white--text">
+            <p class="text-base">According to the AI, the result is:</p>
+            <p class="text-base">{{ customFile }}: {{ aiResult.model }}</p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -226,7 +294,8 @@ export default {
     return {
       apiUrl: "http://localhost:5000/api/",
       aiResult: "",
-      image: null
+      image: null,
+      customFile: ""
     };
   },
   methods: {
@@ -256,6 +325,22 @@ export default {
         default:
           break;
       }
+      axios
+        .post(endpoint, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          this.aiResult = res.data;
+          alert("well analysed!");
+        })
+        .catch(err => console.log(err));
+    },
+    customAnalyse() {
+      const endpoint = `${this.apiUrl}custom?path=${this.customFile}`;
+      const formData = new FormData();
+      formData.append("image", this.image);
       axios
         .post(endpoint, formData, {
           headers: {

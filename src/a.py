@@ -43,12 +43,11 @@ def resnet():
 @app.route('/api/custom', methods=['POST'])
 def custom():
     image = request.files['image']
-    if request.data == b'':
-        return 'Body is empty', 400
-    body = request.json
-    if not path.exists(body['path']):
+    pathInput = request.args.get('path') + ".keras"
+    print(pathInput)
+    if not path.exists(f'./models/{pathInput}'):
         return 'No file at this path', 400
-    return jsonify({'resnet': load_custom_model(image, body['path'])})
+    return jsonify({'model': load_custom_model(image, pathInput)})
 
 
 @app.route('/api/all', methods=['POST'])
