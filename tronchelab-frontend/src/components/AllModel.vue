@@ -235,9 +235,6 @@
             >Custom model</v-card-title
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
-          <h5 class="mx-4">
-            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
-          </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <div class="flex">
               <v-file-input
