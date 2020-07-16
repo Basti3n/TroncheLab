@@ -64,7 +64,7 @@
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
           <h5 class="mx-4">
-            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+            Paramètres utilisés : batch_size=64 | epoch=1200 | accuracy=0.44
           </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
@@ -106,7 +106,7 @@
           <v-card-title class="justify-center headline">CNN model</v-card-title>
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
           <h5 class="mx-4">
-            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+            Paramètres utilisés : batch_size=100 | epoch=800 | accuracy=0.99
           </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
@@ -148,7 +148,7 @@
           <v-card-title class="justify-center headline">MLP model</v-card-title>
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
           <h5 class="mx-4">
-            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+            Paramètres utilisés : batch_size=100 | epoch=1250 | accuracy=0.99
           </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
@@ -192,7 +192,7 @@
           >
           <v-card-subtitle>Send us the image you want to test</v-card-subtitle>
           <h5 class="mx-4">
-            Paramètres utilisés : batch_size=42 | epoch=42 | accuracy=0.99
+            Paramètres utilisés : batch_size=100 | epoch=1600 | accuracy=0.99
           </h5>
           <form enctype="multipart/form-data" class="flex flex-column">
             <v-file-input
